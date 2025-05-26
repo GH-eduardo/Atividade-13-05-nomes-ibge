@@ -25,7 +25,8 @@ const NameComparisonComponent = () => {
         IBGEApiService.fetchNameData(validatedName2)
       ]);
       
-      const processedData = DataProcessingService.processComparisonData(
+      // Agora processComparisonData é async
+      const processedData = await DataProcessingService.processComparisonData(
         apiData1, apiData2, validatedName1, validatedName2
       );
       
