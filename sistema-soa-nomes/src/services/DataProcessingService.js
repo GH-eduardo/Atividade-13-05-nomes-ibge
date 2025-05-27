@@ -16,8 +16,6 @@ class DataProcessingService {
 
     async function calcularRankingHistorico(nomeAlvo, periodoAlvo) {
       try {
-        // Para calcular o ranking histórico, precisamos buscar dados de vários nomes populares
-        // e comparar suas frequências no período específico
         const nomesPopulares = [
           'MARIA', 'ANA', 'JOSE', 'ANTONIO', 'JOAO', 'FRANCISCO', 'CARLOS', 'PAULO', 'PEDRO', 'LUCAS',
           'LUIZ', 'MARCOS', 'LUIS', 'GABRIEL', 'RAFAEL', 'DANIEL', 'MARCELO', 'BRUNO', 'EDUARDO', 'FELIPE',
@@ -25,7 +23,6 @@ class DataProcessingService {
           'FRANCISCA', 'ANTONIA', 'ADRIANA', 'JULIANA', 'MARCIA', 'FERNANDA', 'PATRICIA', 'ALINE', 'SANDRA', 'CAMILA'
         ];
 
-        // Busca dados para vários nomes e compara frequências no período específico
         const comparacaoFrequencias = [];
         
         for (const nomePopular of nomesPopulares.slice(0, 20)) { // Limita para não sobrecarregar
@@ -45,12 +42,10 @@ class DataProcessingService {
               }
             }
           } catch (error) {
-            // Ignora erros individuais para não quebrar o processo todo
             console.warn(`Erro ao buscar dados para ${nomePopular}:`, error);
           }
         }
 
-        // Busca dados do nome alvo
         const dadosNomeAlvo = await IBGEApiService.fetchNameData(nomeAlvo);
         let frequenciaNomeAlvo = 0;
         
@@ -65,13 +60,11 @@ class DataProcessingService {
           }
         }
 
-        // Adiciona o nome alvo na comparação
         comparacaoFrequencias.push({
           nome: nomeAlvo.toUpperCase(),
           frequencia: frequenciaNomeAlvo
         });
 
-        // Ordena por frequência (maior para menor) e encontra a posição
         comparacaoFrequencias.sort((a, b) => b.frequencia - a.frequencia);
         
         const posicao = comparacaoFrequencias.findIndex(item => 
@@ -86,13 +79,11 @@ class DataProcessingService {
       }
     }
 
-    // Processa os dados originais e calcula ranking histórico para cada período
     const processedItems = [];
     
     for (const item of apiData[0].res) {
       const periodoFormatado = formataPeriodo(item.periodo);
       
-      // Calcula o ranking histórico para este período específico
       const rankingHistorico = await calcularRankingHistorico(nome, periodoFormatado);
       
       console.log(`Ranking para período ${periodoFormatado}:`, rankingHistorico);
@@ -106,7 +97,6 @@ class DataProcessingService {
 
     console.log('Dados processados com ranking histórico:', processedItems);
 
-    // Retorna os dados no formato esperado pelo gráfico
     return processedItems.map(item => ({
       decade: item.periodo,
       frequency: item.frequencia,
@@ -119,7 +109,6 @@ class DataProcessingService {
   }
 
   static async processComparisonData(data1, data2, name1, name2) {
-    // Agora processNameEvolution é async, então precisamos aguardar
     const processed1 = await this.processNameEvolution(data1, name1);
     const processed2 = await this.processNameEvolution(data2, name2);
 
@@ -157,7 +146,6 @@ class DataProcessingService {
 
     const totalOcorrenciasTop20Nomes = soma(top20Nomes);
 
-    // Pega os 3 primeiros nomes
     return top20Nomes.slice(0, 3).map((item, index) => ({
       position: index + 1,
       name: item.nome,

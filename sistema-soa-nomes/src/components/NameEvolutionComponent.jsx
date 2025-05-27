@@ -20,7 +20,6 @@ const NameEvolutionComponent = () => {
       const validatedName = ValidationService.validateName(name);
       const apiData = await IBGEApiService.fetchNameData(validatedName);
       
-      // Agora usando await porque a função é async
       const processedData = await DataProcessingService.processNameEvolution(apiData, validatedName);
       
       setData(processedData);
@@ -31,7 +30,6 @@ const NameEvolutionComponent = () => {
     }
   };
 
-  // Função para determinar se deve mostrar o ranking
   const hasValidRanking = data.length > 0 && data[0].ranking !== null;
 
   return (
@@ -89,7 +87,6 @@ const NameEvolutionComponent = () => {
             )}
           </div>
 
-          {/* Informações sobre o ranking */}
           {hasValidRanking && (
             <div className="mb-4 p-3 bg-blue-50 rounded-md">
               <p className="text-sm text-blue-800">

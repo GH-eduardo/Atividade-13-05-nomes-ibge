@@ -1,4 +1,3 @@
-// Serviço de Validação
 class ValidationService {
   static validateName(name) {
     if (!name || name.trim().length < 2) {

@@ -1,10 +1,8 @@
-// Serviço de Comunicação com API do IBGE
 class IBGEApiService {
   static baseUrl = 'https://servicodados.ibge.gov.br/api/v2/censos/nomes';
 
   static async fetchNameData(name, localidade = null) {
-    try {
-      let url = `${this.baseUrl}/${encodeURIComponent(name)}`;
+    try {      let url = `${this.baseUrl}/${encodeURIComponent(name)}`;
       if (localidade) {
         url += `?localidade=${localidade}`;
       }
